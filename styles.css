@@ -42,9 +42,9 @@ body { padding-bottom: var(--safe-bottom); }
 
 .topbar {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.6rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.4rem;
   padding: calc(0.55rem + var(--safe-top)) var(--pad-x) 0.55rem;
   border-bottom: 1px solid var(--line);
   background: rgba(255, 243, 247, 0.92);
@@ -59,7 +59,7 @@ body { padding-bottom: var(--safe-bottom); }
   gap: 0.55rem;
   align-items: center;
   min-width: 0;
-  flex: 1;
+  width: 100%;
 }
 
 .brand-mark {
@@ -76,7 +76,10 @@ body { padding-bottom: var(--safe-bottom); }
   color: #fff;
 }
 
-.brand > div { min-width: 0; }
+.brand > div {
+  min-width: 0;
+  flex: 1;
+}
 .brand strong {
   display: block;
   font-size: 0.88rem;
@@ -97,12 +100,18 @@ body { padding-bottom: var(--safe-bottom); }
 .top-stats {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.4rem;
   color: var(--muted);
   font-size: 0.75rem;
   flex-wrap: wrap;
-  justify-content: flex-end;
-  flex: 0 1 auto;
+  justify-content: flex-start;
+  width: 100%;
+  padding-top: 0.35rem;
+  border-top: 1px solid var(--line);
+}
+
+.top-stats[hidden] {
+  display: none !important;
 }
 
 .top-stats .dot {
@@ -110,6 +119,31 @@ body { padding-bottom: var(--safe-bottom); }
   height: 4px;
   border-radius: 50%;
   background: var(--accent);
+  flex: 0 0 auto;
+}
+
+@media (min-width: 720px) {
+  .topbar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .brand {
+    width: auto;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .top-stats {
+    width: auto;
+    flex: 0 0 auto;
+    max-width: 42%;
+    justify-content: flex-end;
+    padding-top: 0;
+    border-top: none;
+  }
 }
 
 main {
@@ -495,11 +529,6 @@ footer {
   .topbar {
     padding-left: max(var(--pad-x), env(safe-area-inset-left));
     padding-right: max(var(--pad-x), env(safe-area-inset-right));
-  }
-
-  .top-stats {
-    width: 100%;
-    justify-content: flex-start;
   }
 
   main {
