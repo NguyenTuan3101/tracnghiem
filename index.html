@@ -2,72 +2,56 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ôn vui XLMT · Trắc nghiệm CNTP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#fff3f7" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>Ôn tập XLMT trong CNTP – Trắc nghiệm</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="blobs" aria-hidden="true">
-    <span class="blob b1"></span>
-    <span class="blob b2"></span>
-    <span class="blob b3"></span>
-  </div>
-  <canvas id="fxCanvas" aria-hidden="true"></canvas>
-
   <header class="topbar">
     <div class="brand">
-      <span class="brand-mark" aria-hidden="true">🌸</span>
+      <span class="brand-mark">XLMT</span>
       <div>
-        <strong>Ôn vui XLMT</strong>
-        <p>Xử lý môi trường trong CNTP</p>
+        <strong>Ôn tập trắc nghiệm</strong>
+        <p>Xử lý môi trường trong công nghiệp thực phẩm</p>
       </div>
     </div>
     <div class="top-stats" id="topStats" hidden>
-      <span class="chip streak" id="streakChip" title="Chuỗi đúng liên tiếp">🔥 0</span>
-      <span class="chip" id="scoreLabel">0 đúng / 0</span>
-      <span class="chip" id="progressLabel">1 / 510</span>
+      <span id="scoreLabel">0 đúng / 0 đã làm</span>
+      <span class="dot"></span>
+      <span id="progressLabel">1 / 510</span>
     </div>
   </header>
 
   <main>
     <section class="panel setup" id="setupPanel">
-      <div class="hero-mascot" id="setupMascot" aria-hidden="true">📚✨</div>
-      <h1 id="setupTitle">Hôm nay ôn một chút nha</h1>
-      <p class="lead" id="setupLead">Có 510 câu. Bạn chọn kiểu ôn phù hợp — trả lời xong sẽ biết ngay đúng hay sai.</p>
-      <p class="tip" id="setupTip">Mẹo nhỏ: sai cũng ổn, nhìn đáp án rồi lặp lại sẽ nhớ nhanh hơn.</p>
+      <h1>Ngân hàng 510 câu hỏi</h1>
+      <p class="lead">Chọn đáp án xong sẽ hiện ngay đúng / sai. Đáp án đúng lấy từ phần in đậm trong đề cương.</p>
 
       <form id="setupForm" class="setup-form">
         <fieldset>
-          <legend>Bạn muốn ôn kiểu nào?</legend>
+          <legend>Phạm vi ôn</legend>
           <label class="choice">
             <input type="radio" name="mode" value="all" checked />
-            <span>
-              <strong>Làm hết luôn</strong>
-              <small>Cả 510 câu trong ngân hàng</small>
-            </span>
+            <span>Toàn bộ 510 câu</span>
           </label>
           <label class="choice">
             <input type="radio" name="mode" value="random" />
-            <span>
-              <strong>Rút vài câu cho nhanh</strong>
-              <small>Lấy ngẫu nhiên N câu</small>
-            </span>
+            <span>Lấy ngẫu nhiên N câu</span>
           </label>
           <label class="choice">
             <input type="radio" name="mode" value="range" />
-            <span>
-              <strong>Ôn theo đoạn</strong>
-              <small>Chọn từ câu … đến câu …</small>
-            </span>
+            <span>Theo khoảng số câu</span>
           </label>
         </fieldset>
 
         <div class="extra-field" id="randomOpts" hidden>
-          <label>Làm khoảng bao nhiêu câu?
-            <input type="number" id="randomCount" min="1" max="510" value="30" />
+          <label>Số câu
+            <input type="number" id="randomCount" min="1" max="510" value="50" />
           </label>
         </div>
 
@@ -83,42 +67,30 @@
         </div>
 
         <fieldset>
-          <legend>Thứ tự câu hỏi ra sao?</legend>
+          <legend>Thứ tự câu hỏi</legend>
           <label class="choice">
             <input type="radio" name="qOrder" value="asc" checked />
-            <span>
-              <strong>Đi lần lượt</strong>
-              <small>Theo số câu tăng dần</small>
-            </span>
+            <span>Theo thứ tự</span>
           </label>
           <label class="choice">
             <input type="radio" name="qOrder" value="shuffle" />
-            <span>
-              <strong>Xáo lên cho vui</strong>
-              <small>Mỗi lần một thứ tự mới</small>
-            </span>
+            <span>Xáo trộn câu hỏi</span>
           </label>
         </fieldset>
 
         <fieldset>
-          <legend>Còn đáp án thì sao?</legend>
+          <legend>Thứ tự đáp án</legend>
           <label class="choice">
             <input type="radio" name="aOrder" value="keep" checked />
-            <span>
-              <strong>Để nguyên A–B–C–D</strong>
-              <small>Giống đề gốc</small>
-            </span>
+            <span>Giữ A–B–C–D như đề</span>
           </label>
           <label class="choice">
             <input type="radio" name="aOrder" value="shuffle" />
-            <span>
-              <strong>Xáo đáp án luôn</strong>
-              <small>Khó nhớ máy móc hơn, nhớ bản chất hơn</small>
-            </span>
+            <span>Xáo trộn đáp án</span>
           </label>
         </fieldset>
 
-        <button type="submit" class="btn primary pulse" id="startBtn">Bắt đầu thôi →</button>
+        <button type="submit" class="btn primary">Bắt đầu làm bài</button>
       </form>
     </section>
 
@@ -130,39 +102,36 @@
         </div>
       </div>
 
-      <div id="quizBody" class="quiz-body">
-        <h2 class="question-text" id="questionText"></h2>
-        <div class="question-images" id="questionImages" hidden></div>
-        <div class="options" id="options" role="list"></div>
-        <p class="feedback" id="feedback" hidden></p>
-      </div>
+      <h2 class="question-text" id="questionText"></h2>
+      <div class="question-images" id="questionImages" hidden></div>
+      <div class="options" id="options" role="list"></div>
+      <p class="feedback" id="feedback" hidden></p>
 
       <div class="actions">
         <button type="button" class="btn ghost" id="btnPrev">← Trước</button>
-        <button type="button" class="btn soft" id="btnSkip">Bỏ qua</button>
+        <button type="button" class="btn" id="btnSkip">Bỏ qua</button>
         <button type="button" class="btn primary" id="btnNext">Tiếp →</button>
       </div>
 
       <div class="nav-tools">
-        <button type="button" class="btn ghost small" id="btnGrid">Lưới câu hỏi</button>
-        <button type="button" class="btn ghost small" id="btnQuit">Xem kết quả</button>
+        <button type="button" class="btn ghost small" id="btnGrid">Danh sách câu</button>
+        <button type="button" class="btn ghost small" id="btnQuit">Thoát / Kết quả</button>
       </div>
     </section>
 
     <section class="panel result" id="resultPanel" hidden>
-      <div class="hero-mascot" id="resultMascot" aria-hidden="true">🏆</div>
-      <h1 id="resultTitle">Xong một vòng rồi!</h1>
+      <h1>Kết quả</h1>
       <div class="result-card" id="resultCard"></div>
       <div class="actions">
-        <button type="button" class="btn primary" id="btnRestart">Ôn thêm vòng nữa</button>
-        <button type="button" class="btn ghost" id="btnHome">Đổi cách ôn</button>
+        <button type="button" class="btn primary" id="btnRestart">Làm lại</button>
+        <button type="button" class="btn ghost" id="btnHome">Về trang chọn</button>
       </div>
     </section>
 
     <dialog id="gridDialog">
       <form method="dialog" class="grid-wrap">
         <header>
-          <h3>Nhảy tới câu</h3>
+          <h3>Chọn câu hỏi</h3>
           <button type="submit" class="btn ghost small" value="close">Đóng</button>
         </header>
         <div class="grid" id="questionGrid"></div>
@@ -171,7 +140,7 @@
   </main>
 
   <footer>
-    <p>Ôn tập XLMT trong CNTP · Lời động viên và hiệu ứng đổi liên tục cho đỡ nhàm</p>
+    <p>Đề cương ôn tập XLMT trong CNTP · 510 câu</p>
   </footer>
 
   <script src="questions.js"></script>
